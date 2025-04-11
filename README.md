@@ -41,12 +41,11 @@ This is a lightweight batch script to **permanently clean up junk files** from a
 You can convert this script into a `.exe` file for silent execution:
 
 ### Steps:
-1. Download **Bat To Exe Converter**: [https://bat-to-exe-converter.en.softonic.com](https://bat-to-exe-converter.en.softonic.com)
-2. Load `junk-cleaner.bat` in it.
-3. Choose:
+1. Load `junk-cleaner.bat` in it.
+2. Choose:
    - Visibility: **Invisible Application**
    - Execution level: **Highest Available**
-4. Click **Compile**.
+3. Click **Compile**.
 
 You’ll now have a `.exe` that runs silently in the background.
 
@@ -57,7 +56,3 @@ You’ll now have a `.exe` that runs silently in the background.
 Feel free to fork, modify, or suggest improvements. PRs welcome!
 
 ---
-
-## 📄 License
-
-MIT License
