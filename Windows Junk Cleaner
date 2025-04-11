@@ -1,0 +1,44 @@
+@echo off
+:: Silent Junk Cleaner - Shift+Delete style
+
+:: Run as Admin check
+net session >nul 2>&1
+if %errorlevel% neq 0 (
+    powershell -Command "Start-Process '%~f0' -Verb RunAs"
+    exit
+)
+
+:: Hide command window
+powershell -WindowStyle Hidden -Command ""
+
+:: Take permissions & delete Prefetch
+takeown /f C:\Windows\Prefetch\* /a >nul 2>&1
+icacls C:\Windows\Prefetch\* /grant administrators:F >nul 2>&1
+del /f /s /q C:\Windows\Prefetch\*.* >nul 2>&1
+
+:: Windows Temp
+takeown /f C:\Windows\Temp\* /a >nul 2>&1
+icacls C:\Windows\Temp\* /grant administrators:F >nul 2>&1
+del /f /s /q C:\Windows\Temp\*.* >nul 2>&1
+
+:: User Temp
+del /f /s /q "%temp%\*.*" >nul 2>&1
+
+:: Empty Recycle Bin
+PowerShell -Command "Clear-RecycleBin -Force" >nul 2>&1
+
+:: Delete browser cache - Chrome
+del /f /s /q "%LocalAppData%\Google\Chrome\User Data\Default\Cache\*" >nul 2>&1
+
+:: Delete browser cache - Edge
+del /f /s /q "%LocalAppData%\Microsoft\Edge\User Data\Default\Cache\*" >nul 2>&1
+
+:: Windows Update leftovers
+del /f /s /q C:\Windows\SoftwareDistribution\Download\*.* >nul 2>&1
+
+:: Event Viewer logs
+wevtutil el > %temp%\loglist.txt
+for /f %%x in (%temp%\loglist.txt) do wevtutil cl "%%x"
+del %temp%\loglist.txt >nul 2>&1
+
+exit
